@@ -38,8 +38,20 @@ public class Rocket : MonoBehaviour
     {
         Thrust();
         Rotate();
+        Flip();
     }
 
+    private void Flip()
+    {
+        if(Input.GetKeyDown(KeyCode.S))
+        {
+            print("here");
+            float newZ = rigidBody.transform.eulerAngles.z + 180;
+            rigidBody.transform.eulerAngles = new Vector3(rigidBody.transform.eulerAngles.x, rigidBody.transform.eulerAngles.y, newZ);
+
+        }
+        
+    }
     private void Rotate()
     {
         rigidBody.freezeRotation = true;
