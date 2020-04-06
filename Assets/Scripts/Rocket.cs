@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Rocket : MonoBehaviour
 {
-
+    int currentScene = 0;
     Rigidbody rigidBody;
     [SerializeField]float rotationSpeed = 40f;
     [SerializeField] float thrustSpeed = 40f;
@@ -23,13 +24,28 @@ public class Rocket : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        if (currentScene == 0)
+        {
+            currentScene++;
+        } 
         switch (collision.gameObject.tag) 
         {
+            
+            case "Finish":
+                print("Hit Finish");
+                if (currentScene == 0)
+                {
+                    currentScene++;
+                }
+                SceneManager.LoadScene(currentScene);
+                break;
             case "Friendly":
-                print("Fine");
+                print("Friendly");
                 break;
             default:
                 print("Dead");
+                currentScene = 0;
+                SceneManager.LoadScene(currentScene);
                 break;
         }
 
