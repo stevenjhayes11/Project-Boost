@@ -21,22 +21,38 @@ public class Rocket : MonoBehaviour
 
     private void ProcessInput()
     {
-        float rotation = 40 * Time.deltaTime;
-        if (Input.GetKey(KeyCode.Space))
-        {
+        Thrust();
+        Rotate();
+    }
 
-            rigidBody.AddRelativeForce(Vector3.up);
-            print("Space pressed");
-        }
-        if(Input.GetKey(KeyCode.D))
+    private void Rotate()
+    {
+        float rotation = 40 * Time.deltaTime;
+        if (Input.GetKey(KeyCode.D))
         {
-            print("Right pressed");
             transform.Rotate(Vector3.back, rotation);
         }
         else if (Input.GetKey(KeyCode.A))
         {
-            print("Left pressed");
             transform.Rotate(Vector3.forward, rotation);
+        }
+    }
+
+    private void Thrust()
+    {
+        AudioSource engineSound = GetComponent<AudioSource>();
+        if (Input.GetKey(KeyCode.Space))
+        {
+            print(engineSound.isPlaying);
+            if (!engineSound.isPlaying)
+            {
+                engineSound.Play();
+            }
+            rigidBody.AddRelativeForce(Vector3.up);
+        }
+        else
+        {
+            engineSound.Stop();
         }
     }
 }
