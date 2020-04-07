@@ -7,8 +7,12 @@ public class Rocket : MonoBehaviour
 {
     int currentScene = 0;
     Rigidbody rigidBody;
-    [SerializeField]float rotationSpeed = 40f;
+    [SerializeField] float rotationSpeed = 40f;
     [SerializeField] float thrustSpeed = 40f;
+    
+
+    enum State {Alive, Dying, Advancing}
+    State state = State.Alive;
 
     // Start is called before the first frame update
     void Start()
@@ -22,39 +26,48 @@ public class Rocket : MonoBehaviour
         ProcessInput();
     }
 
+    private void LoadNextScene()
+    {
+        SceneManager.LoadScene(1);
+    }
+    private void LoadFirstLevel()
+    {
+        SceneManager.LoadScene(0);
+    }
+
     void OnCollisionEnter(Collision collision)
     {
-        if (currentScene == 0)
+        if(state == State.Alive)
         {
-            currentScene++;
-        } 
-        switch (collision.gameObject.tag) 
-        {
-            
-            case "Finish":
-                print("Hit Finish");
-                if (currentScene == 0)
-                {
-                    currentScene++;
-                }
-                SceneManager.LoadScene(currentScene);
-                break;
-            case "Friendly":
-                print("Friendly");
-                break;
-            default:
-                print("Dead");
-                currentScene = 0;
-                SceneManager.LoadScene(currentScene);
-                break;
+            switch (collision.gameObject.tag)
+            {
+
+                case "Finish":
+                    Invoke("LoadNextScene", 1f);
+                    state = State.Advancing;
+                    break;
+                case "Friendly":
+                    break;
+                default:
+                    state = State.Dying;
+                    AudioSource engineSound = GetComponent<AudioSource>();
+                    engineSound.Stop();
+                    Invoke("LoadFirstLevel", 3f);
+                    break;
+            }
         }
+        
 
     }
     private void ProcessInput()
     {
-        Thrust();
-        Rotate();
-        Flip();
+        if(!(state == State.Dying))
+        {
+            Thrust();
+            Rotate();
+            Flip();
+        }
+        
     }
 
     private void Flip()
