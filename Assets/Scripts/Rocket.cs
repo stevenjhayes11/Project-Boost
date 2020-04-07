@@ -76,6 +76,7 @@ public class Rocket : MonoBehaviour
         audioSource.PlayOneShot(deathSound);
         Invoke("LoadFirstLevel", 3f);
         deathParticles.Play();
+        engineParticles.Stop();
     }
 
     private void ProcessInput()
