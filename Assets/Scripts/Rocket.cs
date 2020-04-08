@@ -131,13 +131,12 @@ public class Rocket : MonoBehaviour
 
     private void ApplyThrust()
     {
+        engineParticles.Play();
         if (!audioSource.isPlaying)
         {
             audioSource.PlayOneShot(mainEngine);
         }
-        rigidBody.AddRelativeForce(Vector3.up * thrustSpeed);
-        print("here");
-        engineParticles.Play();
-        print("here2");
+        rigidBody.AddRelativeForce((Vector3.up * thrustSpeed) * (1+ Time.deltaTime));
+        
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class Oscillator : MonoBehaviour
 {
-
+    bool done = false;
     [SerializeField] Vector3 movementVector;
     [Range(0,1)][SerializeField] float movementFactor;
     bool goRight = true;
@@ -13,15 +13,21 @@ public class Oscillator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        startingPosition = GetComponent<Transform>().position;
+        startingPosition = transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector3 offset;
+        float gameTime = Time.time;
+        float modifier;
         Transform wallPosition = GetComponent<Transform>();
-        if(goRight)
+        modifier = Mathf.Sin(gameTime);
+        Vector3 offset = movementVector * modifier;
+        
+        wallPosition.position = startingPosition + offset;
+
+        /* if(goRight)
        {
             offset = movementVector * movementFactor;
             goRight = wallPosition.position.x <= (startingPosition.x + movementVector.x);
@@ -34,5 +40,6 @@ public class Oscillator : MonoBehaviour
         }
         offset = offset / 100;
         wallPosition.position = wallPosition.position + offset; 
+        */
     }
 }
