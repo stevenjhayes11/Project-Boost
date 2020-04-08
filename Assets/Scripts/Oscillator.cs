@@ -24,7 +24,6 @@ public class Oscillator : MonoBehaviour
         Transform wallPosition = GetComponent<Transform>();
         modifier = Mathf.Sin(gameTime);
         Vector3 offset = movementVector * modifier;
-        
         wallPosition.position = startingPosition + offset;
 
         /* if(goRight)
