@@ -16,6 +16,7 @@ public class Rocket : MonoBehaviour
     [SerializeField] ParticleSystem deathParticles;
     [SerializeField] ParticleSystem victoryParticles;
 
+    bool detectCollisions;
     AudioSource audioSource;
     enum State {Alive, Dying, Advancing}
     State state = State.Alive;
@@ -25,12 +26,29 @@ public class Rocket : MonoBehaviour
     {
         rigidBody = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
+        detectCollisions = true;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         ProcessInput();
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            LevelComplete();
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            print("here " + detectCollisions);
+            if (detectCollisions)
+                detectCollisions = false;
+            else
+                detectCollisions = true;
+            print("after " + detectCollisions);
+        }
     }
 
     private void LoadNextScene()
@@ -55,7 +73,10 @@ public class Rocket : MonoBehaviour
                 case "Friendly":
                     break;
                 default:
-                    PlayerDeath();
+                    if (detectCollisions)
+                    {
+                        PlayerDeath();
+                    }
                     break;
             }
         }
