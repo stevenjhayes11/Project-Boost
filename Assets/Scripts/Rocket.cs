@@ -28,7 +28,7 @@ public class Rocket : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         ProcessInput();
     }
@@ -136,7 +136,7 @@ public class Rocket : MonoBehaviour
         {
             audioSource.PlayOneShot(mainEngine);
         }
-        rigidBody.AddRelativeForce((Vector3.up * thrustSpeed) * (1+ Time.deltaTime));
+        rigidBody.AddRelativeForce((Vector3.up * thrustSpeed) * (1 + Time.deltaTime));
         
     }
 }
