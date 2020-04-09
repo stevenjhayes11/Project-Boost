@@ -47,7 +47,8 @@ public class Rocket : MonoBehaviour
                 detectCollisions = !detectCollisions;
             }
         }
-        
+        RespondToFlip();
+
     }
 
     private void LoadNextScene()
@@ -109,7 +110,6 @@ public class Rocket : MonoBehaviour
         {
             RespondToThrust();
             RespondToRotate();
-            RespondToFlip();
         }
         
     }
