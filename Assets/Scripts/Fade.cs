@@ -38,7 +38,6 @@ public class Fade : MonoBehaviour
         }
 
         Color newColor = new Color(foregroundColor.r, foregroundColor.g, foregroundColor.b, currentA);
-        print(newColor);
         foreground.color = newColor;
         
 

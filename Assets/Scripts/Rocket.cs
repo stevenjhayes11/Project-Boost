@@ -36,24 +36,27 @@ public class Rocket : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.L))
+        if(Debug.isDebugBuild)
         {
-            LevelComplete();
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                LevelComplete();
+            }
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                detectCollisions = !detectCollisions;
+            }
         }
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            print("here " + detectCollisions);
-            if (detectCollisions)
-                detectCollisions = false;
-            else
-                detectCollisions = true;
-            print("after " + detectCollisions);
-        }
+        
     }
 
     private void LoadNextScene()
     {
-        SceneManager.LoadScene(1);
+        int currentScene = SceneManager.GetActiveScene().buildIndex;
+        currentScene++;
+        if (currentScene >= SceneManager.sceneCountInBuildSettings)
+            currentScene = 0;
+        SceneManager.LoadScene(currentScene);
     }
     private void LoadFirstLevel()
     {
